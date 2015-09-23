@@ -48,7 +48,7 @@ bool login(Database *db,const string & username,const string &pwd,string &token_
         if(pwd == *ac){
             token_output = randomstring();
             if(token_cache->find(ac,String(username.c_str(),username.size())))
-                token_cache->remove(String(username.c_str(),username.size()));
+                return true;
             token_cache->insert(String(username.c_str(),username.size()),token_output);
             return true;
         }
@@ -58,8 +58,7 @@ bool login(Database *db,const string & username,const string &pwd,string &token_
     else{
         if(db->login(username,pwd)){
             token_output = randomstring();
-            if(token_cache->find(ac,String(username.c_str(),username.size())))
-                token_cache->remove(String(username.c_str(),username.size()));
+            return true;
             token_cache->insert(String(username.c_str(),username.size()),token_output);
             return true;
         }
@@ -83,7 +82,7 @@ bool update_user(Database *db,const string & username,const string &origin_pwd,c
             Cache::ConstAccessor ac;
             if(user_cache->find(ac,String(username.c_str(),username.size())))
              {
-                user_cache->remove(String(username.c_str(),username.size()));
+                return true;
                 user_cache->insert(String(username.c_str(),username.size()),new_pwd);
                 //Update Cache
              }

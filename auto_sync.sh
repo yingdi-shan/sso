@@ -18,6 +18,6 @@ cd /root/sso ;
 #ps -ef | grep python | awk '{print $2}' | xargs kill -9;
 git pull;
 cd flask-proxy/project;
-python runserver.py runserver;
+python & runserver.py runserver;
 " 
 done
