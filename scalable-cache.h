@@ -32,7 +32,7 @@ namespace tstarling {
  * The find() operation fills a ConstAccessor object, which is a smart pointer
  * similar to TBB's const_accessor. After eviction, destruction of the value is
  * deferred until all ConstAccessor objects are destroyed.
- * 
+ *
  * Since the hash value of each key is requested multiple times, you should use
  * a key with a memoized hash function. ThreadSafeStringKey is provided for
  * this purpose.
@@ -78,6 +78,8 @@ struct ThreadSafeScalableCache {
    * are accessing the container.
    */
   void clear();
+
+  bool remove(const TKey& key);
 
   /**
    * Get a snapshot of the keys in the container by copying them into the
@@ -150,6 +152,12 @@ template <class TKey, class TValue, class THash>
 bool ThreadSafeScalableCache<TKey, TValue, THash>::
 find(ConstAccessor& ac, const TKey& key) {
   return getShard(key).find(ac, key);
+}
+
+template <class TKey, class TValue, class THash>
+bool ThreadSafeScalableCache<TKey, TValue, THash>::
+remove(const TKey& key) {
+  return getShard(key).remove(key);
 }
 
 template <class TKey, class TValue, class THash>

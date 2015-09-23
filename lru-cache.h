@@ -185,6 +185,8 @@ public:
     return m_size.load();
   }
 
+      bool remove(const TKey &key);
+
 private:
   /**
    * Unlink a node from the list. The caller must lock the list mutex while
@@ -203,6 +205,7 @@ private:
    * its own locking.
    */
   void evict();
+
 
   /**
    * The maximum number of elements in the container.
@@ -273,12 +276,45 @@ find(ConstAccessor& ac, const TKey& key) {
 
 template <class TKey, class TValue, class THash>
 bool ThreadSafeLRUCache<TKey, TValue, THash>::
+remove(const TKey &key){
+printf("Begin to remove\n");
+    ConstAccessor ac;
+    HashMapConstAccessor& hashAccessor = ac.m_hashAccessor;
+    if (!m_map.find(hashAccessor, key)) {
+        return false;
+    }
+
+  // Acquire the lock, but don't block if it is already held
+  std::unique_lock<ListMutex> lock(m_listMutex, std::try_to_lock);
+  if (lock) {
+    ListNode* node = hashAccessor->second.m_listNode;
+    // The list node may be out of the list if it is in the process of being
+    // inserted or evicted. Doing this check allows us to lock the list for
+    // shorter periods of time.
+    if (node->isInList()) {
+      delink(node);
+      delete node;
+
+    }
+    lock.unlock();
+  }
+    printf("Finish remove\n");
+  return true;
+
+
+}
+
+
+
+template <class TKey, class TValue, class THash>
+bool ThreadSafeLRUCache<TKey, TValue, THash>::
 insert(const TKey& key, const TValue& value) {
   // Insert into the CHM
   ListNode* node = new ListNode(key);
   HashMapAccessor hashAccessor;
   HashMapValuePair hashMapValue(key, HashMapValue(value, node));
   if (!m_map.insert(hashAccessor, hashMapValue)) {
+
     delete node;
     return false;
   }
