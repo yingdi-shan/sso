@@ -100,7 +100,7 @@ void add_user(const string &username,const string &pwd){
 
 userlist userlists[3000];
 void threadMain(int id){
-    auto Start = std::chrono::steady_clock::now( );
+    auto Start = std::chrono::steady_clock::now();
     int cnt=0;
     while(std::chrono::steady_clock::now() < Start + std::chrono::milliseconds( testtime ) && cnt<userlists[id].size()){
         switch(mod){
