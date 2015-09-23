@@ -21,10 +21,10 @@ def start():
 
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
-	username = request.args.get('username')
-	pwd = request.args.get('pwd')
+	username = str(request.args.get('username'))
+	pwd = str(request.args.get('pwd'))
 
-	i = hash_str(username)
+	i = hash_str(username)%app.config['SERVER_NUMBER']
 	url = 'http://' + app.config['SERVER_IPS'][i] + '/add_user?username='+username + '&pwd='+pwd
 
 	headers = {'Content-type': 'application/x-www-form-urlencoded'}  
@@ -39,11 +39,11 @@ def add_user():
 
 @app.route('/update_user', methods=['GET', 'POST'])
 def update_user():
-	username = request.args.get('username')
-	pwd = request.args.get('pwd')
+	username = str(request.args.get('username'))
+	pwd = str(request.args.get('pwd'))
 	new_pwd = request.args.get('new_pwd')
 
-	i = hash_str(username)
+	i = hash_str(username)%app.config['SERVER_NUMBER']
 	url = 'http://' + app.config['SERVER_IPS'][i] + '/update_user?username='+username+'&pwd='+pwd+'&new_pwd='+new_pwd
 
 	headers = {'Content-type': 'application/x-www-form-urlencoded'}  
@@ -58,14 +58,14 @@ def update_user():
 
 @app.route('/verify_token', methods = ['GET', 'POST'])
 def verify_token():
-	username = request.args.get('username')
-	token_id = request.cookies.get('TOKEN_ID')
+	username = str(request.args.get('username'))
+	token_id = str(request.cookies.get('TOKEN_ID'))
 	print token_id
 
 	headers = {'Content-type': 'application/x-www-form-urlencoded', 'Cookie': 'TOKEN_ID='+token_id}
 	print headers
 
-	i = hash_str(username)
+	i = hash_str(username)%app.config['SERVER_NUMBER']
 	url = 'http://' + app.config['SERVER_IPS'][i] + '/verify_token?username='+username
 
 	try:
@@ -79,8 +79,8 @@ def verify_token():
 
 @app.route('/login', methods = ['GET'])
 def login():
-	username = request.args.get('username')
-	pwd = request.args.get('pwd')
+	username = str(request.args.get('username'))
+	pwd = str(request.args.get('pwd'))
 
 	i = hash_str(username)%app.config['SERVER_NUMBER']
 	url = 'http://' + app.config['SERVER_IPS'][i] + '/login?username='+username+'&pwd='+pwd

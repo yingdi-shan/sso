@@ -13,11 +13,12 @@ using namespace std;
 
 atomic<int> x;
 char* hostname; 
+int testtime;
 
 void threadMain(){
     auto Start = std::chrono::steady_clock::now( );
 
-    while(std::chrono::steady_clock::now() < Start + std::chrono::milliseconds( 10000 )){
+    while(std::chrono::steady_clock::now() < Start + std::chrono::milliseconds( testtime )){
 
         using namespace boost::network;
         using namespace boost::network::http;
@@ -45,6 +46,8 @@ int main(int argc, char** argv){
         }
     
         int numThreads=atoi(argv[2]);
+        testtime = atoi(argv[3]);
+
         std::vector<std::thread> threads;
 
         using namespace std::chrono;

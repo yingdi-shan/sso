@@ -1,2 +1,2 @@
 SERVER_NUMBER = 2
-SERVER_IPS = ['localhost:8080', 'localhost:8080']
+SERVER_IPS = ['192.168.1.12:8080', '192.168.1.13:8080']
