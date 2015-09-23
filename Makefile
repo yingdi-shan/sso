@@ -7,7 +7,7 @@ benchmark: benchmark.cpp
 	$(CC) benchmark.cpp -o benchmark $(CC_FLAG) -lcppnetlib-client-connections -lcppnetlib-uri -lboost_system-mt -lboost_thread-mt -lpthread -lssl
 
 server: web.o mysql.o data_access.o
-	$(CC)  web.o mysql.o data_access.o  -ltbb -lmysqlcppconn-static -lmysqlclient -lpthread -lboost_system -o server $(CC_FLAG)
+	$(CC)  web.o mysql.o data_access.o -ldl -ltbb -lmysqlcppconn-static -L/usr/lib64/mysql -lmysqlclient -lpthread -lboost_system -o server $(CC_FLAG)
 
 test : test.o mysql.o
 	$(CC)  test.o mysql.o -ltbb -lmysqlcppconn-static -lmysqlclient -o test $(CC_FLAG)
