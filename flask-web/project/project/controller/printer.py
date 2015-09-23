@@ -16,8 +16,29 @@ def hash_str(username):
 		a = a*33 + ord(c)
 	return a
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def start():
+	token = request.cookies.get('TOKEN_ID')
+	username = request.cookies.get('username')
+	if token is not None and username is not None:
+		url = baseurl + 'verify_token?username=' + username
+		print url
+		headers = {"Cookie": "TOKEN_ID="+token}
+		try:
+			response, content = http.request(url, 'GET', headers=headers)
+			print content
+			if content == 'SUCCESS':
+				return render_template('welcome.html')
+
+			return redirect('/login')
+		except:
+			return redirect('/login')
+		finally:
+			pass
+	return redirect('/login')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
 	username = request.form.get('username')
 	pwd = request.form.get('password')
 
@@ -26,11 +47,21 @@ def start():
 		try:
 			response, content = http.request(url, 'GET')
 			if content == 'SUCCESS':
-				return redirect('/welcome')
-			return render_template('index.html')
+				print response
+				resp = make_response(render_template('welcome.html'))
+
+				response_cookie = response['set-cookie'].split(';')[0]
+				resp.set_cookie('TOKEN_ID', response_cookie.split('=')[1])
+				resp.set_cookie('username', username)
+
+				return resp
+			print content
+
+			return redirect('/login')
 		except:
 			print "sso failed"
-			return redirect('/')
+			return redirect('/login')
+
 	return render_template('index.html')
 
 

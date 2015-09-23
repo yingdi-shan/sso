@@ -24,12 +24,12 @@ int mod;
 typedef vector<pair<std::string, std::string> > userlist;
 
 void remote_login(const std::string& user_id,const std::string& password){
-    using namespace boost::network;
+   using namespace boost::network;
     using namespace boost::network::http;
 
     try{
     std::string req = "http://" + std::string(hostname)+"/login?username="+user_id+"&pwd="+password;
-        client::request request_(req);
+       client::request request_(req);
         request_ << header("Connection", "close");
         client client_;
         client::response response_ = client_.get(request_);
@@ -80,6 +80,7 @@ void verify(){
     }
 
 }
+
 void add_user(const std::string &username,const std::string &pwd){
     using namespace boost::network;
     using namespace boost::network::http;
@@ -108,7 +109,7 @@ void threadMain(int id){
         switch(mod){
             case 0:
                 add_user(userlists[id][cnt].first,userlists[id][cnt].second);
-                break;
+               break;
             case 1:
           //      login();
                 break;
@@ -120,7 +121,7 @@ void threadMain(int id){
                 break;
             case 4:
                 remote_login(userlists[id][cnt].first,userlists[id][cnt].second);
-                break;
+               break;
             default:
                 return;
                 break;
@@ -141,7 +142,7 @@ int main(int argc, char** argv){
             std::string username = line.substr(0, 8);
             std::string pwd = line.substr(9, 17);
             userlists[cnt++%numThreads].push_back(pair<std::string, std::string>(username, pwd));
-        }
+       }
 
 
         if(argc == 1){
@@ -173,7 +174,5 @@ int main(int argc, char** argv){
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
         cout << "time: " << time_span.count() <<endl;
         cout << "requests " << x << endl;
-
-
     return 0;
 }
