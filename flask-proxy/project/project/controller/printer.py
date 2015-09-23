@@ -5,7 +5,7 @@ from flask import render_template, request, make_response
 import urllib
 import httplib2
 
-http = httplib2.Http()
+http = httplib2.Http(timeout=0.5)
 
 def hash_str(username):
 	s = list(username)
@@ -27,6 +27,7 @@ def add_user():
 	i = hash_str(username)%app.config['SERVER_NUMBER']
 	url = 'http://' + app.config['SERVER_IPS'][i] + '/add_user?username='+username + '&pwd='+pwd
 
+	print url
 	headers = {'Content-type': 'application/x-www-form-urlencoded'}  
 
 	try:

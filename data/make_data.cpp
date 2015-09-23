@@ -16,13 +16,13 @@ char * random_str(char *str,int size){
 }
 
 void print_http(char *ip){
-    printf("http://%s/add_user?name=%s&pwd=%s\n",ip,random_str(name,8),random_str(password,16));
+    printf("http://%s/add_user?username=%s&pwd=%s\n",ip,random_str(name,8),random_str(password,16));
 }
 
-int main(){
+int main(int argc, char** argv){
 	freopen("http.txt","w",stdout);
-	for(int i=0;i<10000000;i++){
-        print_http("127.0.0.1:80");
+	for(int i=0;i<atoi(argv[1]);i++){
+        print_http(argv[2]);
 	}
 
 	return 0;

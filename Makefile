@@ -26,7 +26,7 @@ mysql.o: mysql.cpp mysql.h
 	$(CC)  -c mysql.cpp $(CC_FLAG)
 
 clean:
-	rm *.o server test
+	rm *.o server test data/a.out data/html.txt 
 
 run:
 	./server
