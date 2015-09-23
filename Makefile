@@ -1,11 +1,10 @@
 CC = g++ 
 CC_FLAG = "-std=c++11"
 
-proxy: proxy.o
-	$(CC) proxy.o -o proxy $(CC_FLAG) -lboost_system -lboost_thread-mt -lcppnetlib-client-connections -lcppnetlib-uri -lpthread -lssl -undefined dynamic_lookup
+all: server test 
 
-proxy.o: proxy.cpp config.h util.h	
-	$(CC) -c proxy.cpp $(CC_FLAG)
+benchmark: benchmark.cpp
+	$(CC) benchmark.cpp -o benchmark $(CC_FLAG) -lcppnetlib-client-connections -lcppnetlib-uri -lboost_system-mt -lboost_thread-mt -lpthread -lssl -undefined dynamic_lookup
 
 server: web.o mysql.o data_access.o
 	$(CC)  web.o mysql.o data_access.o -ltbb -lmysqlcppconn-static -lmysqlclient -lpthread -lboost_system -o server $(CC_FLAG)
@@ -26,7 +25,7 @@ mysql.o: mysql.cpp mysql.h
 	$(CC)  -c mysql.cpp $(CC_FLAG)
 
 clean:
-	rm *.o server test
+	rm *.o benchmark server test data/a.out data/html.txt 
 
 run:
 	./server
