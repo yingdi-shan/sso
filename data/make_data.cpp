@@ -16,7 +16,8 @@ char * random_str(char *str,int size){
 }
 
 void print_http(char *ip){
-    printf("http://%s/add_user?username=%s&pwd=%s\n",ip,random_str(name,8),random_str(password,16));
+  //  printf("http://%s/add_user?username=%s&pwd=%s\n",ip,random_str(name,8),random_str(password,16));
+    printf("%s %s\n",random_str(name,8),random_str(password,16));
 }
 
 int main(int argc, char** argv){
