@@ -19,6 +19,12 @@ class Database{
 	sql::PreparedStatement *prep_load;
 	sql::PreparedStatement *prep_update;
 	sql::PreparedStatement *prep_insert;
+
+	string url;
+    string username;
+    string pwd;
+    string table;
+    void update();
 public:
 	~Database();
 	void init(const string &, const string &, const string &, const string &);
