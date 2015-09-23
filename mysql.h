@@ -5,8 +5,10 @@
 #include <string>
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
-
+#include <vector>
 using namespace std;
+typedef pair<string,string> pss;
+
 
 class Database{
 	sql::mysql::MySQL_Driver *driver;
@@ -14,14 +16,16 @@ class Database{
 	sql::Statement* stmt;
 
 	sql::PreparedStatement *prep_query;
+	sql::PreparedStatement *prep_load;
+	sql::PreparedStatement *prep_update;
 	sql::PreparedStatement *prep_insert;
 public:
 	~Database();
 	void init(const string &, const string &, const string &, const string &);
-
-	void insert(const string &, const string &);
-	string query(const string &);
-
+    vector<pss> load_users(int limit);
+	bool insert(const string &, const string &);
+	bool login(const string &,const string &);
+    bool update(const string &,const string &);
 	void batch_query();
 };
 

@@ -87,7 +87,7 @@ class ThreadSafeLRUCache {
     HashMapValue()
       : m_listNode(nullptr)
     {}
-    
+
     HashMapValue(const TValue& value, ListNode* node)
       : m_value(value), m_listNode(node)
     {}
@@ -111,11 +111,11 @@ public:
   struct ConstAccessor {
     ConstAccessor() {}
 
-    const TValue& operator*() const {
+    const TValue& operator*() const{
       return *get();
     }
 
-    const TValue* operator->() const {
+    const TValue* operator->() const{
       return get();
     }
 
@@ -216,7 +216,7 @@ private:
    */
   std::atomic<size_t> m_size;
 
-  /** 
+  /**
    * The underlying TBB hash map.
    */
   HashMap m_map;
