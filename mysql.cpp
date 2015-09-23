@@ -26,7 +26,7 @@ bool Database::login(const string &username,const string &pwd){
 	sql::ResultSet* res = prep_query->executeQuery();
 	res->first();
     int row = res->getInt(1);
-    printf("db information:%d\n",row);
+    //printf("db information:%d\n",row);
 	if(row> 0 ){
 		delete res;
 		return true;
