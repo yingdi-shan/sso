@@ -31,6 +31,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="../Makefile" />
+		<Unit filename="../crow_all" />
+		<Unit filename="../data_access.cpp" />
+		<Unit filename="../data_access.h" />
+		<Unit filename="../hash.h" />
+		<Unit filename="../lru-cache.h" />
+		<Unit filename="../mysql.cpp" />
+		<Unit filename="../mysql.h" />
+		<Unit filename="../scalable-cache.h" />
+		<Unit filename="../string-key.h" />
+		<Unit filename="../test.cpp" />
+		<Unit filename="../web.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
