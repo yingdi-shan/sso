@@ -1,0 +1,78 @@
+# depslib dependency file v1.0
+1442995212 source:/home/srssyd/contest/data_access.cpp
+	"mysql.h"
+	<iostream>
+	"lru-cache.h"
+	"scalable-cache.h"
+	"string-key.h"
+	<thread>
+	<string>
+	<iostream>
+	<thread>
+	<memory>
+	<random>
+	<atomic>
+	<chrono>
+	"data_access.h"
+
+1442994376 /home/srssyd/contest/mysql.h
+	<mysql_driver.h>
+	<string>
+	<cppconn/prepared_statement.h>
+	<cppconn/resultset.h>
+	<vector>
+
+1442991800 /home/srssyd/contest/lru-cache.h
+	<atomic>
+	<mutex>
+	<new>
+	<thread>
+	<vector>
+	<tbb/concurrent_hash_map.h>
+
+1442936752 /home/srssyd/contest/scalable-cache.h
+	"lru-cache.h"
+	"string-key.h"
+	<limits>
+	<memory>
+
+1442936935 /home/srssyd/contest/string-key.h
+	<atomic>
+	<cstring>
+	<limits>
+	<memory>
+	"hash.h"
+
+1418706153 /home/srssyd/contest/hash.h
+	<stdint.h>
+
+1442994261 /home/srssyd/contest/data_access.h
+	"mysql.h"
+	<iostream>
+	"lru-cache.h"
+	"scalable-cache.h"
+	"string-key.h"
+	<thread>
+	<string>
+	<iostream>
+	<thread>
+	<memory>
+	<random>
+	<atomic>
+	<chrono>
+
+1442939808 source:/home/srssyd/contest/test.cpp
+	"mysql.h"
+	<iostream>
+	"lru-cache.h"
+	"scalable-cache.h"
+	"string-key.h"
+	<thread>
+	<string>
+	<iostream>
+	<thread>
+	<memory>
+	<random>
+	<atomic>
+	<chrono>
+
