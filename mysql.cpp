@@ -18,9 +18,33 @@ void Database::init(const string &url, const string &username,const string &pwd,
 	prep_load = conn->prepareStatement("select * from user limit ?");
 	prep_insert = conn->prepareStatement("insert user(username, pwd) values(?, ?)");
 	prep_update = conn->prepareStatement("update user set pwd=? where username=?");
+
+	this->url =url;
+	this->username = username;
+	this->pwd = pwd;
+	this->table = table;
+}
+
+void Database::update(){
+    driver = sql::mysql::get_mysql_driver_instance();
+	conn = driver->connect(url, username, pwd);
+	stmt = conn->createStatement();
+
+	string op = "use ";
+	op += table;
+	stmt->execute(op);
+
+	prep_query = conn->prepareStatement("select count(*) from user where username=? and pwd=?");
+	prep_load = conn->prepareStatement("select * from user limit ?");
+	prep_insert = conn->prepareStatement("insert user(username, pwd) values(?, ?)");
+	prep_update = conn->prepareStatement("update user set pwd=? where username=?");
+
 }
 
 bool Database::login(const string &username,const string &pwd){
+    if(conn->isClosed())
+        update();
+
 	prep_query->setString(1, username);
 	prep_query->setString(2, pwd);
 	sql::ResultSet* res = prep_query->executeQuery();
@@ -38,6 +62,10 @@ bool Database::login(const string &username,const string &pwd){
 }
 
 bool Database::insert(const string &username,const string &pwd){
+
+    if(conn->isClosed())
+        update();
+
 	prep_insert->setString(1, username);
 	prep_insert->setString(2, pwd);
 
@@ -49,6 +77,8 @@ bool Database::insert(const string &username,const string &pwd){
 }
 
 bool Database::update(const string &username,const string &pwd){
+    if(conn->isClosed())
+        update();
 	prep_update->setString(2, username);
 	prep_update->setString(1, pwd);
 
@@ -62,6 +92,9 @@ bool Database::update(const string &username,const string &pwd){
 typedef pair<string,string> pss;
 
 vector<pss> Database::load_users(int limit){
+
+    if(conn->isClosed())
+        update();
     vector<pss> result;
 
     prep_load->setInt(1,limit);
