@@ -1,6 +1,11 @@
 CC = g++ 
+CC_FLAG = "-std=c++11"
 
-CC_FLAG = -std=c++11 -O4
+proxy: proxy.o
+	$(CC) proxy.o -o proxy $(CC_FLAG) -lboost_system -lboost_thread-mt -lcppnetlib-client-connections -lcppnetlib-uri -lpthread -lssl -undefined dynamic_lookup
+
+proxy.o: proxy.cpp config.h util.h	
+	$(CC) -c proxy.cpp $(CC_FLAG)
 
 server: web.o mysql.o data_access.o
 	$(CC)  web.o mysql.o data_access.o -ltbb -lmysqlcppconn-static -L/usr/lib64/mysql -lmysqlclient -lpthread -lboost_system -o server $(CC_FLAG)
