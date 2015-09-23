@@ -20,6 +20,12 @@ def hash_str(username):
 def start():
 	token = request.cookies.get('TOKEN_ID')
 	username = request.cookies.get('username')
+
+	if username is None:
+		print "username miss"
+	if token is None:
+		print "token miss"
+
 	if token is not None and username is not None:
 		url = baseurl + 'verify_token?username=' + username
 		print url
@@ -51,8 +57,8 @@ def login():
 				resp = make_response(render_template('welcome.html'))
 
 				response_cookie = response['set-cookie'].split(';')[0]
-				resp.set_cookie('TOKEN_ID', response_cookie.split('=')[1])
-				resp.set_cookie('username', username)
+				resp.set_cookie('TOKEN_ID', response_cookie.split('=')[1], max_age=10000)
+				resp.set_cookie('username', username, max_age=10000)
 
 				return resp
 			print content
