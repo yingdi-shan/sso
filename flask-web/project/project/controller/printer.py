@@ -36,12 +36,12 @@ def start():
 			if content == 'SUCCESS':
 				return render_template('welcome.html')
 
-			return redirect('/login')
+			return redirect('https://0.0.0.0:1024/login')
 		except:
-			return redirect('/login')
+			return redirect('https://0.0.0.0:1024/login')
 		finally:
 			pass
-	return redirect('/login')
+	return redirect('https://0.0.0.0:1024/login')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,10 +63,10 @@ def login():
 				return resp
 			print content
 
-			return redirect('/login')
+			return render_template('index.html')
 		except:
 			print "sso failed"
-			return redirect('/login')
+			return render_template('index.html')
 
 	return render_template('index.html')
 
@@ -85,7 +85,7 @@ def register():
 		url = baseurl + 'add_user?username='+username+'&pwd='+pwd
 		try:
 			response, content = http.request(url, 'GET')
-			return redirect('/')
+			return redirect('https://0.0.0.0:1024/login')
 		except:
 			print 'sso failed'
 			return render_template('register.html')
