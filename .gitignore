@@ -1,1 +1,6 @@
 *.pyc
+*.o
+*.in
+*.out
+test
+server
