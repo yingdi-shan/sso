@@ -4,8 +4,8 @@ import time
 import random
 
 runtime = 5
-thread_num = 100
-baseurl = 'http://127.0.0.1:5000/'
+thread_num = 50 
+baseurl = 'http://127.0.0.1:8080/'
 
 x = 0
 
@@ -48,6 +48,8 @@ def login():
 			pass
 
 def test(func):
+
+	random.seed(int(time.time()));
 	print 'test'
 	try:
 		threads = []
@@ -69,6 +71,5 @@ def test(func):
 		print 'thread create error'
 	finally:
 		pass
-
 test(add_user)
 

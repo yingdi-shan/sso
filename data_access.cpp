@@ -46,7 +46,6 @@ bool login(Database *db,const string & username,const string &pwd,string &token_
     if(user_cache->find(ac,String(username.c_str(),username.size()))){
         printf("Cache found\n");
         if(pwd == *ac){
-
             if(token_cache->find(ac,String(username.c_str(),username.size()))){
                 token_output = *ac;
                 return true;

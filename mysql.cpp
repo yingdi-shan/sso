@@ -33,10 +33,17 @@ bool Database::login(const string &username,const string &pwd){
     auto prep_query = conn->prepareStatement(prep_query_str);
 	prep_query->setString(1, username);
 	prep_query->setString(2, pwd);
-	sql::ResultSet* res = prep_query->executeQuery();
+	int row;sql::ResultSet* res;
+try{
+	 res = prep_query->executeQuery();
 	res->first();
-    int row = res->getInt(1);
+     row = res->getInt(1);
+}
+catch(...){
+
+}
     //printf("db information:%d\n",row);
+	returnConnection(conn);
 	if(row> 0 ){
 		delete res;
 		return true;
@@ -54,10 +61,16 @@ bool Database::insert(const string &username,const string &pwd){
 	
 	prep_insert->setString(1, username);
 	prep_insert->setString(2, pwd);
+sql::ResultSet * output;
+	try{
+	 output = prep_insert->executeQuery();
+}catch(...){
+	returnConnection(conn);
+	return false;
+}
+	delete output;
+	returnConnection(conn);
 
-	sql::ResultSet * output = prep_insert->executeQuery();
-	if(!output)
-        return false;
 
 	return true;
 }
@@ -68,11 +81,11 @@ bool Database::update(const string &username,const string &pwd){
 	
     prep_update->setString(2, username);
 	prep_update->setString(1, pwd);
-
-	sql::ResultSet * output = prep_update->executeQuery();
-	if(!output)
-        return false;
-
+sql::ResultSet * output;
+try{	
+output = prep_update->executeQuery();
+}catch(...){returnConnection(conn);if(output)delete output; return false;}
+	returnConnection(conn);
 	return true;
 }
 
@@ -93,6 +106,8 @@ vector<pss> Database::load_users(int limit){
         result.push_back(make_pair(output->getString(1),output->getString(2)));
     }
 
+    delete output;
+    returnConnection(conn);
     return result;
 
 }
@@ -106,7 +121,7 @@ sql::Connection *Database::getConnection(){
 }
 
 void Database::returnConnection(sql::Connection *conn){
-    connections.push(conn);    
+    	connections.push(conn);    
 }
 Database::~Database(){
     sql::Connection * conn;
