@@ -92,12 +92,9 @@ void add_user(const std::string &username,const std::string &pwd){
         request_ << header("Connection", "close");
         client client_;
         client::response response_ = client_.get(request_);
-        std::string body_ = body(response_);
         int fault_time=0;
         x++;
     }catch( std::exception & e){
-        failtime++;
-        cout << "exception" << endl;
     }
 }
 
@@ -106,6 +103,7 @@ void threadMain(int id){
     auto Start = std::chrono::steady_clock::now();
     int cnt=0;
     while(std::chrono::steady_clock::now() < Start + std::chrono::milliseconds( testtime ) && cnt++<userlists[id].size()){
+        printf("Hello\n");
         switch(mod){
             case 0:
                 add_user(userlists[id][cnt].first,userlists[id][cnt].second);
@@ -126,7 +124,7 @@ void threadMain(int id){
                 return;
                 break;
         }
-
+        printf("Returned\n");
     }
 }
 
@@ -138,7 +136,6 @@ int main(int argc, char** argv){
 
         int cnt=0;
         while(getline(fin, line)){
-            cout << line << endl;
             std::string username = line.substr(0, 8);
             std::string pwd = line.substr(9, 17);
             userlists[cnt++%numThreads].push_back(pair<std::string, std::string>(username, pwd));

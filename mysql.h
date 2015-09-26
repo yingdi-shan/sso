@@ -13,26 +13,37 @@ using namespace std;
 typedef pair<string,string> pss;
 
 
-class Database{
-	sql::mysql::MySQL_Driver *driver;
-	sql::Statement* stmt;
-    const int conn_limit = 100;    
+class Database
+{
+    sql::mysql::MySQL_Driver *driver;
+    const int conn_limit = 100;
     concurrent_queue<sql::Connection*> connections;
-	string prep_query_str;
-	string prep_load_str;
-	string prep_update_str;
-	string prep_insert_str;
+    map<sql::Connection*,sql::PreparedStatement*> prep_query_m;
+    map<sql::Connection*,sql::PreparedStatement*> prep_load_m;
+    map<sql::Connection*,sql::PreparedStatement*> prep_update_m;
+    map<sql::Connection*,sql::PreparedStatement*> prep_insert_m;
+
+    string username;
+    string pwd;
+    string table;
+    string url;
+
+    string prep_query_str = "select count(*) from user where username=? and pwd=?";
+    string prep_load_str = "select * from user limit ?";
+    string prep_insert_str = "insert user(username, pwd) values(?, ?)";
+    string prep_update_str = "update user set pwd=? where username=?";
+
 
 public:
-	~Database();
-	void init(const string &, const string &, const string &, const string &);
+    ~Database();
+    void init(const string &, const string &, const string &, const string &);
     bool update(const string &username,const string &pwd);
     sql::Connection * getConnection();
     void returnConnection(sql::Connection *);
     vector<pss> load_users(int limit);
-	bool insert(const string &, const string &);
-	bool login(const string &,const string &);
-	void batch_query();
+    bool insert(const string &, const string &);
+    bool login(const string &,const string &);
+    void batch_query();
 };
 
 #endif
