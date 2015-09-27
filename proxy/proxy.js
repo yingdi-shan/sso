@@ -4,7 +4,9 @@ var http = require('http'),
 var addresses = require('./sso_server.json')
 
 
-var proxy = httpProxy.createProxyServer({});
+var proxy = httpProxy.createProxyServer();
+
+
 
 var hashCode = function (str) {
     var hash = 0;
@@ -18,12 +20,22 @@ var hashCode = function (str) {
 }
 
 var server = http.createServer(function (req, res) {
-
-    var sso_id = hashcode(require('url').parse(req.url, true).query.name);
-
+    var param = require('url').parse(req.url, true).query;
+    
+    var sso_id;
+    if("username" in param)
+        sso_id= hashCode(param.username)%addresses.length;
+    else
+        sso_id=Math.floor(Math.random()*addresses.length);
+    
     var target = { target: addresses[sso_id]};
 
-    proxy.web(req, res, target);
+     proxy.web(req, res, target);
 });
+
+server.on('connection', function (socket) {
+    socket.setNoDelay(true);
+});
+
 
 server.listen(8090);
