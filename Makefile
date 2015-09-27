@@ -1,5 +1,5 @@
 CC = g++ 
-CC_FLAG = "-std=c++11"
+CC_FLAG = -std=c++11
 
 all: server test 
 
@@ -29,4 +29,5 @@ clean:
 
 run:
 	./server
+	
 		

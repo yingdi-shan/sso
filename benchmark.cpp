@@ -28,8 +28,8 @@ void remote_login(const std::string& user_id,const std::string& password){
     using namespace boost::network::http;
 
     try{
-    std::string req = "http://" + std::string(hostname)+"/login?username="+user_id+"&pwd="+password;
-       client::request request_(req);
+        std::string req = "http://" + std::string(hostname)+"/login?username="+user_id+"&pwd="+password;
+        client::request request_(req);
         request_ << header("Connection", "close");
         client client_;
         client::response response_ = client_.get(request_);
@@ -95,6 +95,7 @@ void add_user(const std::string &username,const std::string &pwd){
         int fault_time=0;
         x++;
     }catch( std::exception & e){
+        
     }
 }
 

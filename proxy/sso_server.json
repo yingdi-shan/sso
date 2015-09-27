@@ -1,0 +1,15 @@
+[
+	{
+		"host" :"http://teaker-1/",
+		"port" :8080
+	},
+	{
+		"host" :"http://teaker-2/",
+		"port" :8080
+	},
+	{
+		"host" :"http://teaker-3/",
+		"port" :8080
+	}
+	
+]
