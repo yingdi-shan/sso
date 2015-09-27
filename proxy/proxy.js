@@ -30,7 +30,7 @@ var server = http.createServer(function (req, res) {
     
     var target = { target: addresses[sso_id]};
 
-     proxy.web(req, res, target);
+     proxy.web(req, res, target,function(e){console.log(e)});
 });
 
 server.on('connection', function (socket) {

@@ -1,14 +1,14 @@
 [
 	{
-		"host" :"http://127.0.0.1/",
+		"host" :"teaker-1",
 		"port" :8080
 	},
 	{
-		"host" :"http://127.0.0.1/",
+		"host" :"teaker-2",
 		"port" :8080
 	},
 	{
-		"host" :"http://127.0.0.1/",
+		"host" :"teaker-3",
 		"port" :8080
 	}
 	
